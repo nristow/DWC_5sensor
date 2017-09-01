@@ -2,12 +2,6 @@
 
 #define DEBUG true
 
-Adafruit_VL53L0X tof1 = Adafruit_VL53L0X();
-auto tof2 = Adafruit_VL53L0X();
-auto tof3 = Adafruit_VL53L0X();
-auto tof4 = Adafruit_VL53L0X();
-auto tof5 = Adafruit_VL53L0X();
-
 int xshut[5] = {0,3,5,7,9};
 int gpio1[5] = {3,6,8,10,12};
 int tofaddress[5] = {0x1,0x2,0x3,0x4,0x5};
@@ -46,7 +40,11 @@ void setup() {
   {
     tof[i] = Adafruit_VL53L0X();
     digitalWrite(xshut[i], LOW);
-    tof[i].begin(tofaddress[i], DEBUG);
+    if(!tof[i].begin(tofaddress[i], DEBUG))
+    {
+      Serial.println(F("tof error"));
+      while(1);
+    }
   }
 
 
@@ -67,7 +65,9 @@ void loop() {
     }
     else
       Serial.println(" out of range ");
+    delay(100);
   } 
+
 //  VL53L0X_RangingMeasurementData_t measure;
 //    
 //  Serial.print("Reading a measurement... ");
