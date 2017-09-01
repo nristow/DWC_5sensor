@@ -40,11 +40,13 @@ void setup() {
   {
     tof[i] = Adafruit_VL53L0X();
     digitalWrite(xshut[i], LOW);
+    delay(1);
     if(!tof[i].begin(tofaddress[i], DEBUG))
     {
       Serial.println(F("tof error"));
       while(1);
     }
+    delay(1);
   }
 
 
